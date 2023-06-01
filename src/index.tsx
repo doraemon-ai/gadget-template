@@ -24,8 +24,6 @@ export default {
   mount: async (props: { container: any, name: string, onGlobalStateChange: (params: any) => void }) => {
     props.onGlobalStateChange((state: any, prev: any) => { // state: 变更后的状态; prev 变更前的状态
       if (state.type === 'ACTION') {
-        console.log('监听event', state)
-
         controller.handleAction(state.params)
           .then(res => onReceiveHandleResult?.(res))
           .catch(err => {
