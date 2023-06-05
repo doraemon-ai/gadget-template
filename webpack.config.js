@@ -3,10 +3,8 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const pkgInfo = require('./package.json')
 
-const gadgetName = (pkgInfo.name).replace(/\-(\w)/g, (all, letter) => letter.toUpperCase())
-
 module.exports = {
-  entry: './src/index.tsx',
+  entry: './index.tsx',
   mode: 'production',
   output: {
     path: path.resolve(__dirname, 'dist'),

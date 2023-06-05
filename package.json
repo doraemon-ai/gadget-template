@@ -1,5 +1,5 @@
 {
-  "id": "32a74f98-1aef-473a-bda7-8e2dea9d5b64",
+  "id": "6ba360cb-9277-4d01-9c82-af5b0acf43a8",
   "name": "gadget-template",
   "version": "0.0.1",
   "description": "这是一个示例插件，可参考此插件模板开发自己的插件",
@@ -22,7 +22,7 @@
     "dev": "webpack-dev-server --config webpack.dev.config.js --open --progress"
   },
   "dependencies": {
-    "antd": "^4.6.3",
+    "antd": "^5.5.2",
     "js-md5": "^0.7.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

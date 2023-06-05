@@ -1,9 +1,7 @@
-import { message } from 'antd'
 import ReactDOM from 'react-dom'
-import View from './View'
-import controller from './Controller'
-import { InstallParams, ConversationDataType, IViewElementProps, SYS_ACTION_NAME } from '../Interface'
-import React from 'react'
+import View from './src/View'
+import controller from './src/Controller'
+import { InstallParams, ConversationDataType, IViewElementProps, SYS_ACTION_NAME } from './Interface'
 
 let onReceiveHandleResult: ((data: ConversationDataType) => void) | undefined | null
 
@@ -26,16 +24,13 @@ export default {
       if (state.type === 'ACTION') {
         controller.handleAction(state.params)
           .then(res => onReceiveHandleResult?.(res))
-          .catch(err => {
-            console.error(err)
-          })
+          .catch(err => console.error(err))
       } else if (state.type === 'FEEDBACK') {
         console.log(state.params)
       }
     })
 
     ReactDOM.render(<div />, props.container ? props.container.querySelector('#root') : document.getElementById('root'))
-    // message.success(`${props.name} is installed 🎉`)
 
     setTimeout(() => {
       controller.handleAction({
@@ -59,7 +54,9 @@ export default {
         data={data}
         expectation={expectation}
         onSendAction={(actionInfo) => {
-          actionInfo.expectation = expectation
+          if (!actionInfo.expectation) {
+            actionInfo.expectation = expectation
+          }
           controller.handleAction(actionInfo).then(res => onReceiveHandleResult?.(res))
         }}
       />
