@@ -7,7 +7,7 @@
   "homepage": "https://github.com/kaleai",
   "bugs": {
     "url": "https://github.com/kaleai",
-    "email": "example@kale.com"
+    "email": "kaleai@qq.com"
   },
   "keywords": [
     "template",
@@ -30,7 +30,9 @@
   "devDependencies": {
     "@types/react-dom": "^18.2.4",
     "babel-loader": "^9.1.2",
+    "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.1",
+    "style-loader": "^3.3.3",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
     "webpack": "^5.82.0",
