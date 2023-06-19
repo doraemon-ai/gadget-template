@@ -7,7 +7,7 @@ module.exports = {
   entry: './index.tsx',
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'gadget.js',
     libraryTarget: 'umd',
     umdNamedDefine: true,
