@@ -8,7 +8,7 @@ export enum SYS_ACTION_NAME {
 }
 
 export type InstallProps = {
-  onReceiveActionHandleResult: ((data: ActionHandleResultType) => void) | undefined
+  onReceiveActionHandleResult: (data: ActionHandleResultType) => void
   envInfo: Record<string, any>
   gid: string
 }
@@ -22,6 +22,7 @@ export type ViewElementInfoType = {
 export interface IViewElementProps extends ViewElementInfoType {
   containerId: string // view容器的id
   isReadonly: boolean // view是否是只读状态
+  onSendAction: (actionInfo: ActionInfoType) => void
 }
 
 export type ActionInfoType = {
