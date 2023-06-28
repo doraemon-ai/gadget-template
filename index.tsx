@@ -17,6 +17,7 @@ export default {
 
   unmount: async (props: { container: Element | DocumentFragment }) => {
     onReceiveActHandleRes = null
+    controller.onDestroy()
     ReactDOM.unmountComponentAtNode(props.container)
   },
 
