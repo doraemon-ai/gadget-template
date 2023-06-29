@@ -12,6 +12,7 @@ export default {
   bootstrap: async (props: InstallProps) => {
     gid = props.gid
     onReceiveActHandleRes = props.onReceiveActionHandleResult
+    controller.onCreate()
     return Promise.resolve()
   },
 

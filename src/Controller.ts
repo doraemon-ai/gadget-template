@@ -1,17 +1,14 @@
 import { ActionInfoType, ActionHandleResultType, SYS_ACTION_NAME, SysViewElementInfo, FeedbackInfoType } from '../Interface'
 import { gid } from '../index'
-
 const md5 = require('js-md5')
 
 class Controller {
 
-  constructor() {
-    console.log('gid',gid)
-  }
+  public onCreate() { console.log('gid', gid) /* dynamic id */ }
 
-  public onDestroy(){}
+  public onDestroy() {}
 
-  public handleFeedback(feedbackInfo: FeedbackInfoType) {}
+  public handleFeedback(info: FeedbackInfoType) { /* handle user feedback */ }
 
   public async handleAction({ action, expectation, values }: ActionInfoType): Promise<ActionHandleResultType> {
     console.log('handle action:', action, expectation, values)
@@ -25,11 +22,16 @@ class Controller {
           canFeedback: false,
         }
       case SYS_ACTION_NAME.CHAT_BOX_SUBMIT:
-        return {
-          sessionUUId: 'id:' + Math.random(),
-          viewElementInfos: [{ viewType: 'md5Text', data: { md5Str: md5(values.text) } }],
-          suggestActions: [{ label: '再次输入', actionInfo: { action: 'RE_INPUT' } }],
-        }
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve({
+                sessionUUId: 'id:' + Math.random(),
+                viewElementInfos: [{ viewType: 'md5Text', data: { md5Str: md5(values.text) } }],
+                suggestActions: [{ label: '再次输入', actionInfo: { action: 'RE_INPUT' } }],
+              },
+            )
+          }, 1000)
+        })
       default:
         return { sessionUUId: '', viewElementInfos: [] }
     }
