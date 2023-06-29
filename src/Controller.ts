@@ -1,14 +1,19 @@
 import { ActionInfoType, ActionHandleResultType, SYS_ACTION_NAME, SysViewElementInfo, FeedbackInfoType } from '../Interface'
-import { gid } from '../index'
+
 const md5 = require('js-md5')
 
 class Controller {
 
-  public onCreate() { console.log('gid', gid) /* dynamic id */ }
+  public onCreate(gid: string) {
+    console.log('gid', gid) // dynamic id
+    localStorage.setItem(md5(gid + 'key_custom'), 'custom_value') // Private key
+  }
 
-  public onDestroy() {}
+  public onDestroy() {
+  }
 
-  public handleFeedback(info: FeedbackInfoType) { /* handle user feedback */ }
+  public handleFeedback(info: FeedbackInfoType) { /* handle user feedback */
+  }
 
   public async handleAction({ action, expectation, values }: ActionInfoType): Promise<ActionHandleResultType> {
     console.log('handle action:', action, expectation, values)
