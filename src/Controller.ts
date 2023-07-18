@@ -35,7 +35,7 @@ class Controller {
                 suggestActions: [{ label: '再次输入', actionInfo: { action: 'RE_INPUT' } }],
               },
             )
-          }, 1000)
+          }, 240)
         })
       default:
         return { sessionUUId: '', viewElementInfos: [] }

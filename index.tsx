@@ -26,38 +26,29 @@
 import ReactDOM, { Container } from 'react-dom'
 import View from './src/View'
 import controller from './src/Controller'
-import { InstallProps, ActionHandleResultType, IViewElementProps } from './Interface'
-
-let onReceiveActHandleRes: ((data: ActionHandleResultType) => void) | null
+import { InstallProps, IViewElementProps } from './Interface'
 
 export default {
 
   bootstrap: async (props: InstallProps) => {
-    onReceiveActHandleRes = props.onReceiveActionHandleResult
-    controller.onCreate(props.gid)
-  },
+    props.getView((props: IViewElementProps) => <View {...props} />)
+    props.sendEvent((category: string, params: any) => {
+      console.log('[Gadget App] handle event', category, params)
 
-  mount: async (props: { container: Container, onGlobalStateChange: (params: any) => void }) => {
-    props.onGlobalStateChange((event: { category: string, params: any }, prevEvent: any) => { // event: 变更后的状态; prevEvent 变更前的状态
-      switch (event.category) {
+      switch (category) {
         case 'ACTION':
-          controller.handleAction(event.params).then(res => onReceiveActHandleRes?.(res)).catch(err => console.error(err))
-          break
+          return controller.handleAction(params)
         case 'FEEDBACK':
-          controller.handleFeedback(event.params)
-          break
+          return controller.handleFeedback(params)
       }
     })
-
+    controller.onCreate(props.gid)
+  },
+  mount: async (props: { container: Container }) => {
     ReactDOM.render(<div />, props.container)
   },
-
-  unmount: async (props: { container: Element | DocumentFragment }) => {
+  unmount: async (props: { container: Element }) => {
     controller.onDestroy()
     ReactDOM.unmountComponentAtNode(props.container)
-  },
-
-  update: async (props: IViewElementProps): Promise<any> => {
-    ReactDOM.render(<View {...props} />, document.getElementById(props.containerId))
-  },
+  }
 }
