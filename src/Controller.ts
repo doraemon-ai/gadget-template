@@ -1,6 +1,5 @@
 import { ActionInfoType, ActionHandleResultType, SYS_ACTION_NAME, SysViewElementInfo, FeedbackInfoType } from '../Interface'
-
-const md5 = require('js-md5')
+import md5 from 'js-md5'
 
 class Controller {
 
