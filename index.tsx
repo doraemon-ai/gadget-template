@@ -44,9 +44,10 @@ export default {
           return controller.handleFeedback(params)
       }
     })
-    controller.onCreate(props.gid)
+    controller.onCreate(props)
   },
   mount: async (props: { container: Container }) => {
+    controller.onStart()
     ReactDOM.render(<div />, props.container)
   },
   unmount: async (props: { container: Element }) => {
