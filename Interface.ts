@@ -12,14 +12,9 @@ export enum SYS_ACTION {
  * 系统提供的View类型，以SYS_UI:开头
  */
 export enum SYS_VIEW_TYPE {
-  GADGET = 'GADGET', // 特殊类型，没有SYS_UI开头
-
   ERROR = 'SYS_UI:ERROR',
   CHAT_BOX = 'SYS_UI:CHAT_BOX',
   MARKDOWN = 'SYS_UI:MARKDOWN',
-  FEEDBACK = 'SYS_UI:FEEDBACK',
-  SUGGESTION = 'SYS_UI:SUGGESTION',
-  DIVIDER = 'SYS_UI:DIVIDER',
 }
 
 export type InstallProps = {
