@@ -2,10 +2,19 @@
  * @author Jack Tony
  * @date 2023/5/20
  */
-export enum SYS_ACTION_NAME {
-  INITIALIZATION = 'SYS_INITIALIZATION',
-  CHAT_BOX_SUBMIT = 'SYS_CHAT_BOX_SUBMIT',
-  GET_SELECTED_TEXT = 'GET_SELECTED_TEXT'
+export const SYS_ACTION = {
+  INITIALIZATION: 'SYS_ACT:INITIALIZATION',
+  CHAT_BOX_SUBMIT: 'SYS_ACT:CHAT_BOX_SUBMIT',
+  GET_SELECTED_TEXT: 'SYS_ACT:GET_SELECTED_TEXT',
+}
+
+/**
+ * 系统提供的View类型，以SYS_UI:开头
+ */
+export const SYS_VIEW_TYPE = {
+  ERROR: 'SYS_UI:ERROR',
+  CHAT_BOX: 'SYS_UI:CHAT_BOX',
+  MARKDOWN: 'SYS_UI:MARKDOWN',
 }
 
 export type InstallProps = {
@@ -80,19 +89,19 @@ export class SysViewElementInfo {
 
   static ErrorPanel = class cls extends AbsViewEleInfo<ISysErrorInfo> {
     constructor(info: ISysErrorInfo, expectation?: string) {
-      super('SYS_ERROR', info, expectation)
+      super(SYS_VIEW_TYPE.ERROR, info, expectation)
     }
   }
 
   static ChatBox = class cls extends AbsViewEleInfo<ISysChatBox> {
     constructor(info: ISysChatBox, expectation?: string) {
-      super('SYS_CHAT_BOX', info, expectation)
+      super(SYS_VIEW_TYPE.CHAT_BOX, info, expectation)
     }
   }
 
   static Markdown = class cls extends AbsViewEleInfo<ISysMarkdown> {
     constructor(info: ISysMarkdown, expectation?: string) {
-      super('SYS_MARKDOWN', info, expectation)
+      super(SYS_VIEW_TYPE.MARKDOWN, info, expectation)
     }
   }
 

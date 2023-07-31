@@ -1,4 +1,4 @@
-import { ActionInfoType, ActionHandleResultType, SYS_ACTION_NAME, SysViewElementInfo, FeedbackInfoType, InstallProps } from '../Interface'
+import { ActionInfoType, ActionHandleResultType, SYS_ACTION, SysViewElementInfo, FeedbackInfoType, InstallProps } from '../Interface'
 import md5 from 'js-md5'
 
 class Controller {
@@ -21,14 +21,14 @@ class Controller {
     console.log('handle action:', action, expectation, values)
 
     switch (action) {
-      case SYS_ACTION_NAME.INITIALIZATION:
+      case SYS_ACTION.INITIALIZATION:
       case 'RE_INPUT':
         return {
           sessionUUId: 'id:' + Math.random(),
           viewElementInfos: [new SysViewElementInfo.ChatBox({ placeholder: 'please input some text' }, 'exp')],
           canFeedback: false,
         }
-      case SYS_ACTION_NAME.CHAT_BOX_SUBMIT:
+      case SYS_ACTION.CHAT_BOX_SUBMIT:
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve({
