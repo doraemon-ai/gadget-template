@@ -48,7 +48,7 @@ module.exports = {
       title: pkgInfo.name,
       meta: {
         id: pkgInfo.id,
-        name: pkgInfo.name,
+        name: pkgInfo.nickname,
         icon: pkgInfo.icon,
         version: pkgInfo.version,
         description: pkgInfo.description,
