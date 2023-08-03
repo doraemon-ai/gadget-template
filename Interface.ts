@@ -43,8 +43,8 @@ export type ActionInfoType = {
 }
 
 export type FeedbackInfoType = {
-  like: boolean
   sessionUUId: string
+  like: boolean
 }
 
 export type SuggestActionType = {

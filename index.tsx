@@ -29,7 +29,6 @@ import controller from './src/Controller'
 import { InstallProps, IViewElementProps } from './Interface'
 
 export default {
-
   bootstrap: async (props: InstallProps) => {
     props.getView((props: IViewElementProps, id: string) => {
       ReactDOM.render(<View {...props} />, document.getElementById(id))
@@ -44,14 +43,14 @@ export default {
           return controller.handleFeedback(params)
       }
     })
-    controller.onCreate(props)
+    return controller.onCreate(props)
   },
   mount: async (props: { container: Container }) => {
-    controller.onStart()
     ReactDOM.render(<div />, props.container)
+    return controller.onStart()
   },
   unmount: async (props: { container: Element }) => {
-    controller.onDestroy()
     ReactDOM.unmountComponentAtNode(props.container)
+    return controller.onDestroy()
   },
 }

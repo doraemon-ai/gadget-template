@@ -3,15 +3,18 @@ import md5 from 'js-md5'
 
 class Controller {
 
-  public onCreate(props: InstallProps) {
+  public async onCreate(props: InstallProps): Promise<any> {
     console.log('gid', props.gid) // dynamic id
     // localStorage.setItem(md5(props.gid + 'key_custom'), 'custom_value') // Private key
+    return null
   }
 
-  public onStart() {
+  public async onStart(): Promise<any> {
+    return null
   }
 
-  public onDestroy() {
+  public async onDestroy(): Promise<any> {
+    return null
   }
 
   public handleFeedback(info: FeedbackInfoType) { /* handle user feedback */
