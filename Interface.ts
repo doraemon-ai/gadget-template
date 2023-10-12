@@ -21,6 +21,7 @@ export type InstallProps = {
   onReceiveActionHandleResult?: (data: ActionHandleResultType) => void
   envInfo: Record<string, any>
   gid: string
+  parameters: object
   getView: (func: (props: IViewElementProps, id: string) => void) => void
   sendEvent: (func: (category: string, params: any) => void | Promise<any>) => void
 }
