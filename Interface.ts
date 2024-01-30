@@ -16,7 +16,7 @@ export enum SYS_ACTION {
 /**
  * 系统提供的View类型。均以SYS_UI开头
  */
-export enum SYS_VIEW_TYPE {
+export enum SYS_UI_TYPE {
   ERROR = 'SYS_UI:ERROR',
   CHAT_BOX = 'SYS_UI:CHAT_BOX',
   MARKDOWN = 'SYS_UI:MARKDOWN',
@@ -99,19 +99,19 @@ export class SysViewElementInfo {
 
   static ErrorPanel = class cls extends AbsViewEleInfo<SysErrorDataType> {
     constructor(data: SysErrorDataType, expectation?: string) {
-      super(SYS_VIEW_TYPE.ERROR, data, false, expectation)
+      super(SYS_UI_TYPE.ERROR, data, false, expectation)
     }
   }
 
   static ChatBox = class cls extends AbsViewEleInfo<SysChatBoxDataType> {
     constructor(data: SysChatBoxDataType, expectation?: string) {
-      super(SYS_VIEW_TYPE.CHAT_BOX, data, true, expectation)
+      super(SYS_UI_TYPE.CHAT_BOX, data, true, expectation)
     }
   }
 
   static Markdown = class cls extends AbsViewEleInfo<SysMarkdownDataType> {
     constructor(data: SysMarkdownDataType, expectation?: string) {
-      super(SYS_VIEW_TYPE.MARKDOWN, data, false, expectation)
+      super(SYS_UI_TYPE.MARKDOWN, data, false, expectation)
     }
   }
 
