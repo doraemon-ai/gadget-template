@@ -2,6 +2,11 @@
  * @author Jack Tony
  * @date 2023/5/20
  */
+import { ComponentState, FunctionComponentElement, Key } from 'react'
+
+/**
+ * 系统提供的Action。均以SYS_ACT开头
+ */
 export enum SYS_ACTION {
   INITIALIZATION = 'SYS_ACT:INITIALIZATION',
   CHAT_BOX_SUBMIT = 'SYS_ACT:CHAT_BOX_SUBMIT',
@@ -9,7 +14,7 @@ export enum SYS_ACTION {
 }
 
 /**
- * 系统提供的View类型，以SYS_UI:开头
+ * 系统提供的View类型。均以SYS_UI开头
  */
 export enum SYS_VIEW_TYPE {
   ERROR = 'SYS_UI:ERROR',
@@ -22,25 +27,27 @@ export type InstallProps = {
   envInfo: Record<string, any>
   gid: string
   parameters: object
-  getView: (func: (props: IViewElementProps, id: string) => void) => void
+  getView: (func: (props: IGadgetViewProps) => FunctionComponentElement<any>) => void
   sendEvent: (func: (category: string, params: any) => void | Promise<any>) => void
 }
 
 export type ViewElementInfoType = {
   viewType: string // view类型。如：SYS_CHAT_BOX/SYS_MARKDOWN/...
-  data: any // view 渲染所需的数据
+  data: ComponentState // view 渲染所需的数据
+  needUserEdit?: boolean, // 是否需要用户编辑
   expectation?: string // 期望用户做的事情
 }
 
-export interface IViewElementProps extends ViewElementInfoType {
-  containerId: string // view容器的id
-  onSendAction: (actionInfo: ActionInfoType) => void
+export interface IGadgetViewProps extends ViewElementInfoType {
+  sendAction: (actInfo: ActionInfoType) => void
+  renderMarkdownView: (markdown: string) => FunctionComponentElement<any> | null
+  isReadyOnly?: boolean
 }
 
 export type ActionInfoType = {
   action: string
   expectation?: string
-  values?: any
+  values?: Record<Key, any>
 }
 
 export type FeedbackInfoType = {
@@ -48,61 +55,63 @@ export type FeedbackInfoType = {
   like: boolean
 }
 
-export type SuggestActionType = {
+export type SuggestionInfoType = {
   label: string
   actionInfo: ActionInfoType
 }
 
 export type ActionHandleResultType = {
   sessionUUId: string
-  canFeedback?: boolean // default: true
+  canFeedback?: boolean // default: false
   viewElementInfos: ViewElementInfoType[]
-  suggestActions?: SuggestActionType[]
+  suggestActions?: SuggestionInfoType[]
 }
 
-export interface ISysErrorInfo {
+export interface SysErrorDataType {
   name: string
   message?: string
   code?: string
 }
 
-export interface ISysChatBox {
+export interface SysChatBoxDataType {
   placeholder?: string
 }
 
-export interface ISysMarkdown {
+export interface SysMarkdownDataType {
   content: string
 }
 
-abstract class AbsViewEleInfo<T> implements ViewElementInfoType {
+abstract class AbsViewEleInfo<Data> implements ViewElementInfoType {
   viewType: string
-  data: T
+  data: Data
   expectation?: string
+  needUserEdit: boolean
 
-  protected constructor(viewType: string, info: T, expectation?: string) {
+  protected constructor(viewType: string, data: Data, needEdit: boolean, expectation?: string) {
     this.viewType = viewType
-    this.data = info
+    this.data = data
+    this.needUserEdit = needEdit
     this.expectation = expectation
   }
 }
 
 export class SysViewElementInfo {
 
-  static ErrorPanel = class cls extends AbsViewEleInfo<ISysErrorInfo> {
-    constructor(info: ISysErrorInfo, expectation?: string) {
-      super(SYS_VIEW_TYPE.ERROR, info, expectation)
+  static ErrorPanel = class cls extends AbsViewEleInfo<SysErrorDataType> {
+    constructor(data: SysErrorDataType, expectation?: string) {
+      super(SYS_VIEW_TYPE.ERROR, data, false, expectation)
     }
   }
 
-  static ChatBox = class cls extends AbsViewEleInfo<ISysChatBox> {
-    constructor(info: ISysChatBox, expectation?: string) {
-      super(SYS_VIEW_TYPE.CHAT_BOX, info, expectation)
+  static ChatBox = class cls extends AbsViewEleInfo<SysChatBoxDataType> {
+    constructor(data: SysChatBoxDataType, expectation?: string) {
+      super(SYS_VIEW_TYPE.CHAT_BOX, data, true, expectation)
     }
   }
 
-  static Markdown = class cls extends AbsViewEleInfo<ISysMarkdown> {
-    constructor(info: ISysMarkdown, expectation?: string) {
-      super(SYS_VIEW_TYPE.MARKDOWN, info, expectation)
+  static Markdown = class cls extends AbsViewEleInfo<SysMarkdownDataType> {
+    constructor(data: SysMarkdownDataType, expectation?: string) {
+      super(SYS_VIEW_TYPE.MARKDOWN, data, false, expectation)
     }
   }
 

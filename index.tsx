@@ -26,13 +26,15 @@
 import ReactDOM, { Container } from 'react-dom'
 import View from './src/View'
 import controller from './src/Controller'
-import { InstallProps, IViewElementProps } from './Interface'
+import { InstallProps, IGadgetViewProps } from './Interface'
+import { CustomProps } from 'single-spa'
 
 export default {
   bootstrap: async (props: InstallProps) => {
-    props.getView((props: IViewElementProps, id: string) => {
-      ReactDOM.render(<View {...props} />, document.getElementById(id))
+    props.getView((props: IGadgetViewProps) => {
+      return <View {...props} />
     })
+
     props.sendEvent((category: string, params: any) => {
       console.log('[Gadget App] handle event', category, params)
 
@@ -52,5 +54,12 @@ export default {
   unmount: async (props: { container: Element }) => {
     ReactDOM.unmountComponentAtNode(props.container)
     return controller.onDestroy()
+  },
+  update: async (data: { citationContent: string, name: string }) => {
+    if (data.citationContent !== undefined) {
+      return controller.onCitationContentChanged(data.citationContent)
+    } else {
+      return null
+    }
   },
 }

@@ -1,5 +1,8 @@
 import { ActionInfoType, ActionHandleResultType, SYS_ACTION, SysViewElementInfo, FeedbackInfoType, InstallProps } from '../Interface'
 import md5 from 'js-md5'
+import { MD5_VIEW_TYPE } from './View'
+
+const RE_INPUT = 'RE_INPUT'
 
 class Controller {
 
@@ -7,7 +10,7 @@ class Controller {
    * 道具初始化时的回调
    */
   public async onCreate(props: InstallProps): Promise<any> {
-    console.log('gid', props.gid) // dynamic id
+    console.log('ctrl-gid', props.gid) // dynamic id
     // localStorage.setItem(md5(props.gid + 'key_custom'), 'custom_value') // Private key
     return null
   }
@@ -23,6 +26,11 @@ class Controller {
    * 被销毁时的回调
    */
   public async onDestroy(): Promise<any> {
+    return null
+  }
+
+  public async onCitationContentChanged(content: string): Promise<any> {
+    console.log('ctrl-citationContentChanged', content)
     return null
   }
 
@@ -44,23 +52,46 @@ class Controller {
 
     switch (action) {
       case SYS_ACTION.INITIALIZATION:
-      case 'RE_INPUT':
+      case RE_INPUT:
         return {
           sessionUUId: 'id:' + Math.random(),
-          viewElementInfos: [new SysViewElementInfo.ChatBox({ placeholder: 'please input some text' }, 'exp')],
-          canFeedback: false,
+          viewElementInfos: [
+            new SysViewElementInfo.Markdown({ content: '**输入信息：**' }),
+            new SysViewElementInfo.ChatBox({ placeholder: 'please input some text' }, 'exp'),
+          ],
         }
+
       case SYS_ACTION.CHAT_BOX_SUBMIT:
-        return new Promise((resolve, reject) => {
+        /*if (Math.floor(Math.random() * 10) >= 9) {
+          return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve({
+                  sessionUUId: 'id:' + Math.random(),
+                  viewElementInfos: [new SysViewElementInfo.ErrorPanel({ name: '出错了', message: '请重试' })],
+                },
+              )
+            }, 300)
+          })
+        }*/
+
+        return new Promise<ActionHandleResultType>((resolve, reject) => {
           setTimeout(() => {
             resolve({
                 sessionUUId: 'id:' + Math.random(),
-                viewElementInfos: [{ viewType: 'md5Text', data: { md5Str: md5(values.text) } }],
-                suggestActions: [{ label: '再次输入', actionInfo: { action: 'RE_INPUT' } }],
-              },
+                viewElementInfos: [
+                  new SysViewElementInfo.Markdown({ content: '**下面是生成的MD5值：**' }),
+                  { viewType: MD5_VIEW_TYPE, data: { md5Str: md5(values?.text) } },
+                ],
+                suggestActions: [
+                  { label: '再次输入', actionInfo: { action: RE_INPUT } },
+                  { label: '输入：Doraemon', actionInfo: { action: SYS_ACTION.CHAT_BOX_SUBMIT, values: { text: 'Doraemon' } } },
+                ],
+                canFeedback: true,
+              }
             )
           }, 1000)
         })
+
       default:
         return { sessionUUId: '', viewElementInfos: [] }
     }
