@@ -34,7 +34,7 @@ export type InstallProps = {
 export type ViewElementInfoType = {
   viewType: string // view类型。如：SYS_CHAT_BOX/SYS_MARKDOWN/...
   data: ComponentState // view 渲染所需的数据
-  needUserInteract?: boolean, // 是否需要用户编辑
+  needInteract?: boolean, // 是否需要用户编辑
   expectation?: string // 期望用户做的事情
 }
 
@@ -85,12 +85,12 @@ abstract class AbsViewEleInfo<Data> implements ViewElementInfoType {
   viewType: string
   data: Data
   expectation?: string
-  needUserInteract: boolean
+  needInteract: boolean
 
   protected constructor(viewType: string, data: Data, needInteract: boolean, expectation?: string) {
     this.viewType = viewType
     this.data = data
-    this.needUserInteract = needInteract
+    this.needInteract = needInteract
     this.expectation = expectation
   }
 }
